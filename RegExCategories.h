@@ -164,6 +164,11 @@
 
 - (BOOL) isMatch:(NSString*)matchee;
 
+/**
+ * Returns true if the string matches the regex in the given range.
+ */
+- (BOOL) isMatch:(NSString*)matchee range:(NSRange)range;
+
 
 /**
  * Returns the index of the first match of the passed string.
@@ -233,6 +238,14 @@
  */
 
 - (NSArray*) matches:(NSString*)str;
+
+/**
+ * Returns an array of matched root strings in a range with no other match information.
+ *
+ */
+
+- (NSArray*) matches:(NSString*)str range:(NSRange)range;
+
 
 
 /**
@@ -324,6 +337,20 @@
 
 - (BOOL) isMatch:(NSRegularExpression*)rx;
 
+/**
+ * Returns true if the string matches the regex string.
+*/
+- (BOOL) isMatchedByRegexString:(NSString*)str;
+
+/**
+ * Returns true if the string matches the regex string, with options.
+ */
+- (BOOL) isMatchedByRegexString:(NSString*)str options:(NSRegularExpressionOptions)opts;
+
+/**
+ * Returns true if the string matches the regex string, with options & range.
+ */
+- (BOOL) isMatchedByRegexString:(NSString*)str options:(NSRegularExpressionOptions)opts range:(NSRange)range;
 
 /**
  * Returns the index of the first match according to
@@ -411,6 +438,11 @@
  */
 
 - (NSArray*) matchesRegexString:(NSString*)s options:(NSRegularExpressionOptions)opts;
+
+/**
+ * Returns an array of matched root strings with no other match information, from a NSString parameter, with options & range.
+ */
+- (NSArray*) matchesRegexString:(NSString*)s options:(NSRegularExpressionOptions)opts range:(NSRange)range;
 
 /**
  * Returns a string which is the first match of the NSRegularExpression.

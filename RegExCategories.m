@@ -53,8 +53,13 @@
 
 - (BOOL) isMatch:(NSString*)matchee
 {
-    return [self numberOfMatchesInString:matchee options:0 range:NSMakeRange(0, matchee.length)] > 0;
+    return [self isMatch:matchee range:NSMakeRange(0, matchee.length)];
 }
+- (BOOL) isMatch:(NSString*)matchee range:(NSRange)range;
+{
+    return [self numberOfMatchesInString:matchee options:0 range:range] > 0;
+}
+
 
 - (int) indexOf:(NSString*)matchee
 {
@@ -150,9 +155,14 @@
 
 - (NSArray*) matches:(NSString*)str
 {
+    return [self matches:str range:NSMakeRange(0, str.length)];
+}
+
+- (NSArray*) matches:(NSString*)str range:(NSRange)range
+{
     NSMutableArray* matches = [NSMutableArray array];
     
-    NSArray* results = [self matchesInString:str options:0 range:NSMakeRange(0, str.length)];
+    NSArray* results = [self matchesInString:str options:0 range:range];
     for (NSTextCheckingResult* result in results) {
         NSString* match = [str substringWithRange:result.range];
         [matches addObject:match];
@@ -160,6 +170,7 @@
     
     return matches;
 }
+
 
 - (NSString*) firstMatch:(NSString*)str
 {
@@ -238,6 +249,22 @@
     return [rx isMatch:self];
 }
 
+- (BOOL) isMatchedByRegexString:(NSString*)str
+{
+    return [[str toRx] isMatch:self];
+}
+
+- (BOOL) isMatchedByRegexString:(NSString*)str options:(NSRegularExpressionOptions)opts
+{
+    return [[str toRxWithOptions:opts] isMatch:self];
+}
+
+- (BOOL) isMatchedByRegexString:(NSString*)str options:(NSRegularExpressionOptions)opts range:(NSRange)range
+{
+    return [[str toRxWithOptions:opts] isMatch:self range:range];
+}
+
+
 - (int) indexOf:(NSRegularExpression*)rx
 {
     return [rx indexOf:self];
@@ -276,6 +303,11 @@
 - (NSArray*) matchesRegexString:(NSString*)s options:(NSRegularExpressionOptions)opts
 {
     return [[s toRxWithOptions:opts] matches:self];
+}
+
+- (NSArray*) matchesRegexString:(NSString*)s options:(NSRegularExpressionOptions)opts range:(NSRange)range
+{
+    return [[s toRxWithOptions:opts] matches:self range:range];
 }
 
 - (NSString*) firstMatch:(NSRegularExpression*)rx
