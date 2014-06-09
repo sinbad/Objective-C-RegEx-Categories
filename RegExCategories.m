@@ -268,6 +268,16 @@
     return [rx matches:self];
 }
 
+- (NSArray*) matchesRegexString:(NSString*)s
+{
+    return [[s toRx] matches:self];
+}
+
+- (NSArray*) matchesRegexString:(NSString*)s options:(NSRegularExpressionOptions)opts
+{
+    return [[s toRxWithOptions:opts] matches:self];
+}
+
 - (NSString*) firstMatch:(NSRegularExpression*)rx
 {
     return [rx firstMatch:self];

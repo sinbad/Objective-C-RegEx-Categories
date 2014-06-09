@@ -395,6 +395,22 @@
 
 - (NSArray*) matches:(NSRegularExpression*)rx;
 
+/**
+ * Returns an array of matched root strings with no other match information, from a NSString parameter.
+ *
+ * ie.
+ * NSString* str = @"My email is me@example.com and yours is you@example.com";
+ * NSArray* matches = [str matchesRegexString:@"\\w+[@]\\w+[.](\\w+)"];
+ *  => @[ @"me@example.com", @"you@example.com" ]
+ */
+
+- (NSArray*) matchesRegexString:(NSString*)s;
+
+/**
+ * Returns an array of matched root strings with no other match information, from a NSString parameter, with options.
+ */
+
+- (NSArray*) matchesRegexString:(NSString*)s options:(NSRegularExpressionOptions)opts;
 
 /**
  * Returns a string which is the first match of the NSRegularExpression.
