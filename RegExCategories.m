@@ -280,6 +280,11 @@
     return [rx replace:self with:replacement];
 }
 
+- (NSString*) replaceRegexString:(NSString*)s with:(NSString*)replacement
+{
+    return [[s toRx] replace:self with:replacement];
+}
+
 - (NSString*) replace:(NSRegularExpression *)rx withBlock:(NSString*(^)(NSString* match))replacer
 {
     return [rx replace:self withBlock:replacer];
@@ -323,6 +328,32 @@
 - (RxMatch*) firstMatchWithDetails:(NSRegularExpression*)rx
 {
     return [rx firstMatchWithDetails:self];
+}
+
+- (NSArray*) componentsSeparatedBy:(NSRegularExpression*)rx
+{
+    NSMutableArray* matches = [NSMutableArray array];
+    
+    NSArray* results = [rx matchesInString:self options:0 range:NSMakeRange(0, self.length)];
+    NSInteger lastStart = 0;
+    for (NSTextCheckingResult* result in results)
+    {
+        // Add any previous non-match region
+        if (result.range.location > lastStart)
+            [matches addObject:[self substringWithRange:NSMakeRange(lastStart, result.range.location - lastStart - 1)]];
+        lastStart =  result.range.location + result.range.length;
+    }
+    // Mop up any remainder
+    if (lastStart < [self length])
+        [matches addObject:[self substringFromIndex:lastStart]];
+    
+    return matches;
+    
+}
+
+- (NSArray*) componentsSeparatedByRegexString:(NSString*)s
+{
+    return [self componentsSeparatedBy:[s toRx]];
 }
 
 @end

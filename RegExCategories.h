@@ -385,6 +385,16 @@
 
 - (NSString*) replace:(NSRegularExpression*)rx with:(NSString*)replacement;
 
+/**
+ * Replaces all occurances of a regex with a replacement string.
+ *
+ * ie.
+ * NSString* result = [@"ruf ruff!" replaceRegexString:@"ruf+" with:@"meow"];
+ *  => @"meow meow!"
+ */
+
+- (NSString*) replaceRegexString:(NSString*)str with:(NSString*)replacement;
+
 
 /**
  * Replaces all occurances of a regex using a block. The block receives the match
@@ -477,6 +487,17 @@
  */
 
 - (RxMatch*) firstMatchWithDetails:(NSRegularExpression*)rx;
+
+/**
+ * Returns an NSArray* of strings of components separated by matches to regex.
+ */
+- (NSArray*) componentsSeparatedBy:(NSRegularExpression*)rx;
+
+/**
+ * Returns an NSArray* of strings of components separated by matches to regex.
+ */
+- (NSArray*) componentsSeparatedByRegexString:(NSString*)s;
+
 
 @end
 
